@@ -13,7 +13,7 @@ SSH Port: 2200
 ## Configuration Steps
 
 ### Get Your Server
-Create instance of Ubuntu server on [Amazon Lightsail] (https://amazonlightsail.com/)
+Create instance of Ubuntu server on [Amazon Lightsail](https://amazonlightsail.com/)
 
 ### Secure Your Server
 1. SSH in as default ubuntu user via web
