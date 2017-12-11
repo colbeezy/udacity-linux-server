@@ -202,15 +202,18 @@ sudo apache2ctl restart
 ### Final Tweaks
 You might think you're done now. I did, but I was wrong. You can check at http://ec2-13-58-125-203.us-east-2.compute.amazonaws.com/. If there are any errors, check the logs at `sudo tail /var/log/apache2/error.log`
 
-There were still 2 issues with the app:
+There are still 2 issues to fix with the app:
 
 1. Update application.py to use absolute path of JSON file:
 
 The relative paths in client_secrets.json were not being found, so I changed the relative paths to absolute paths.
 
   i. Add `import os`
+  
   ii. Create path variable `path = os.path.dirname(__file__)`
+  
   iii. Update CLIENT_ID variable CLIENT_ID = `json.loads(open(os.path.dirname(__file__)+'/client_secrets.json', 'r').read())['web']['client_id']`
+  
   iv. Update gconnect method: `oauth_flow = flow_from_clientsecrets(path+'/client_secrets.json', scope='')`
   
 ```
@@ -219,7 +222,7 @@ sudo apache2ctl restart
 
 2. Update OAuth Google Credentials:
 
-Google requires that you add the origin URI of the client application to their "Authorized JavaScript origins in their Console.
+Google requires that you add the origin URI of the client application to their "Authorized JavaScript Origins" in their console.
 
 
 ### References
