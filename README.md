@@ -80,3 +80,121 @@ Set permissions:
 chmod 700 /home/grader/.ssh
 chmod 600 /home/grader/.ssh/authorized_keys
 ```
+
+Grader can access the machine with SSH:
+
+```
+ssh grader@13.58.125.203 -p 2200 -i ~/.ssh/linuxServerProject
+```
+
+### Prepare to deploy your project.
+1. Configure the local timezone to UTC.
+
+```
+sudo dpkg-reconfigure tzdata
+```
+
+When prompted to select a timezone, pick 'None of the Above' and then UTC.
+
+2. Install and configure Apache to serve a Python mod_wsgi application.
+
+```
+sudo apt-get install apache2
+sudo apt-get install libapache2-mod-wsgi
+```
+
+3. Install and configure PostgreSQL.
+
+```
+sudo apt-get install PostgreSQL
+```
+
+To prevent remote connections, create a new database user named catalog that has limited permissions to your catalog application database.
+
+```
+sudo adduser catalog
+sudo -u postgres -i
+postgres:~$ creatuser catalog
+postgres:~$ createdb catalog
+postgres:~$ psql
+postgres=# ALTER DATABASE catalog OWNER TO catalog;
+postgres=# ALTER USER catalog WITH PASSWORD 'catalog';
+```
+
+4. Install git.
+
+```
+sudo apt-get install git
+```
+
+### Deploy the Item Catalog project.
+1. Clone and setup your Item Catalog project from the Github repository you created earlier in this Nanodegree program.
+
+```
+cd /var/www
+git clone https://github.com/colbeezy/fullstack-nanodegree-vm.git
+```
+
+Within this directory, all items below refer to /vagrant/catalog.
+Open application.py, database_setup.py, and sample_db.py and update the db to postgres:
+
+```
+engine = create_engine('postgresql://catalog:PASSWORD@localhost/catalog')
+```
+
+2. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your .git directory is not publicly accessible via a browser! Install the dependencies:
+
+```
+sudo apt-get -y install python-pip
+sudo pip install SQLAlchemy
+sudo pip install psycopg2
+sudo pip install flask
+sudo pip install oauth2client
+sudo pip install requests
+```
+
+Create schema and populate the catalog database with sample data
+
+```
+python /var/www/fullstack-nanodgree-vm/vagrant/catalog/sample_db.py
+```
+
+Configure Apache to serve the web application using WSGI.
+First, Create the web application WSGI file.
+
+```
+sudo nano /var/www/fullstack-nanodegree-vm/app.wsgi 
+```
+
+Add text to the file:
+
+```
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/fullstack-nanodegree-vm/vagrant/catalog/")
+from application import app as application
+application.secret_key = 'SECRETKEY'
+
+```
+
+Update the Apache configuration file to serve the web application with WSGI.
+
+```
+sudo nano /etc/apache2/sites-enabled/000-default.con
+```
+
+Add the following text inside the <VirtualHost *:80> element:
+
+```
+WSGIScriptAlias / /var/www/fullstack-nanodegree-vm/app.wsgi
+```
+
+Restart Apache:
+
+```
+sudo apache2ctl restart
+```
+
+
