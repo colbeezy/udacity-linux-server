@@ -86,7 +86,7 @@ chmod 600 /home/grader/.ssh/authorized_keys
 Grader can access the machine with SSH:
 
 ```
-ssh grader@13.58.125.203 -p 2200 -i ~/.ssh/linuxServerProject
+ssh grader@13.58.125.203 -p 2200 -i FILEPATHTOKEY
 ```
 
 ### Prepare to deploy your project.
