@@ -41,3 +41,42 @@ sudo ufw enable
 Then, in the AWS console, go to the instance's "Networking" tab and add the ports into the "Firewall" section.
 
 Warning: When changing the SSH port, make sure that the firewall is open for port 2200 first, so that you don't lock yourself out of the server. Review this video for details! When you change the SSH port, the Lightsail instance will no longer be accessible through the web app 'Connect using SSH' button. The button assumes the default port is being used. There are instructions on the same page for connecting from your terminal to the instance. Connect using those instructions and then follow the rest of the steps.
+
+### Give Grader Access
+1. Create a new user account named grader.
+
+```
+sudo adduser grader
+```
+
+2. Give grader the permission to sudo.
+
+```
+sudo nano /etc/sudoers.d/grader
+```
+
+Add text: `grader ALL=(ALL) NOPASSWD:ALL`
+
+3. Create an SSH key pair for grader using the ssh-keygen tool.
+
+```
+ssh-keygen
+```
+
+Make directories to store the key on the server:
+
+```
+mkdir /home/grader/.ssh
+nano /home/grader/.ssh/authorized_keys
+chown grader /home/grader/.ssh
+chown grader /home/grader/.ssh/authorized_keys
+```
+
+Copy-paste the public key into /home/grader/.ssh/authorized_keys.
+
+Set permissions:
+
+```
+chmod 700 /home/grader/.ssh
+chmod 600 /home/grader/.ssh/authorized_keys
+```
