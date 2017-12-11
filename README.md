@@ -232,4 +232,4 @@ Google requires that you add the origin URI of the client application to their "
 * [Official Ubuntu Documentation](https://help.ubuntu.com/community/UbuntuTime)
 * [nixCraft](https://www.cyberciti.biz/faq/linux-resetting-a-users-password/)
 * [Apache Docs](https://httpd.apache.org/docs/2.4/)
-* [A lot of Stackoverflow pages like this one](https://stackoverflow.com/questions/16850350/got-origin-mismatch-error-in-google-share-api)
+* [A lot of Stackoverflow pages, such as this one](https://stackoverflow.com/questions/16850350/got-origin-mismatch-error-in-google-share-api)
