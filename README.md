@@ -5,7 +5,9 @@ This repo serves only as documentation for how to deploy ["The Best Entertainmen
 
 ## Basic Info (as of time of commit)
 URL: http://ec2-13-58-125-203.us-east-2.compute.amazonaws.com
+
 Public IP Address: 13.58.125.203
+
 SSH Port: 2200
 
 ## Configuration Steps
